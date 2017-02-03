@@ -319,7 +319,7 @@ class DragAndDropFrBlock(XBlock, XBlockWithSettingsMixin, ThemableXBlockMixin):
             item['zones'] = zones
             item.pop('zone', None)
 
-        fragment.initialize_js('DragAndDropEditBlock', {
+        fragment.initialize_js('DragAndDropEditFrBlock', {
             'data': self.data,
             'target_img_expanded_url': self.target_img_expanded_url,
             'default_background_image_url': self.default_background_image_url,

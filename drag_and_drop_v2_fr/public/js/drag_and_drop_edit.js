@@ -1,4 +1,4 @@
-function DragAndDropEditBlock(runtime, element, params) {
+function DragAndDropEditFrBlock(runtime, element, params) {
 
     // Set up gettext in case it isn't available in the client runtime:
     if (typeof gettext == "undefined") {
