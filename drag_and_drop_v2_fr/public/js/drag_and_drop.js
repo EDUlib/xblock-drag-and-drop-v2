@@ -108,7 +108,7 @@ function DragAndDropTemplates(configuration) {
         if (item.is_placed) {
             var zone_title = (zone.title || "Unknown Zone");  // This "Unknown" text should never be seen, so does not need i18n
             var description_content;
-            if (configuration.mode === DragAndDropBlock.ASSESSMENT_MODE && !ctx.showing_answer) {
+            if (configuration.mode === DragAndDropFrBlock.ASSESSMENT_MODE && !ctx.showing_answer) {
                 // In assessment mode placed items will "stick" even when not in correct zone.
                 description_content = gettext('Placed in: {zone_title}').replace('{zone_title}', zone_title);
             } else {
@@ -401,7 +401,7 @@ function DragAndDropTemplates(configuration) {
             popupSelector += '.popup-incorrect';
         }
 
-        if (ctx.mode == DragAndDropBlock.ASSESSMENT_MODE) {
+        if (ctx.mode == DragAndDropFrBlock.ASSESSMENT_MODE) {
             var content_items = [
                 (!ctx.last_action_correct) ? h("p", {}, gettext("Some of your answers were not correct.")) : null,
                 h("p", {}, gettext("Hints:")),
@@ -583,7 +583,7 @@ function DragAndDropTemplates(configuration) {
     return mainTemplate;
 }
 
-function DragAndDropBlock(runtime, element, configuration) {
+function DragAndDropFrBlock(runtime, element, configuration) {
     "use strict";
 
     // Set up a mock for gettext if it isn't available in the client runtime:
@@ -592,8 +592,8 @@ function DragAndDropBlock(runtime, element, configuration) {
         window.ngettext = function ngettext_stub(strA, strB, n) { return n == 1 ? strA : strB; };
     }
 
-    DragAndDropBlock.STANDARD_MODE = 'standard';
-    DragAndDropBlock.ASSESSMENT_MODE = 'assessment';
+    DragAndDropFrBlock.STANDARD_MODE = 'standard';
+    DragAndDropFrBlock.ASSESSMENT_MODE = 'assessment';
 
     var Selector = {
         popup_box: '.popup',
@@ -950,14 +950,14 @@ function DragAndDropBlock(runtime, element, configuration) {
         };
         var messages = [];
         // In standard mode, it makes more sense to read the per-item feedback before overall feedback.
-        if (state.feedback && configuration.mode === DragAndDropBlock.STANDARD_MODE) {
+        if (state.feedback && configuration.mode === DragAndDropFrBlock.STANDARD_MODE) {
             messages = messages.concat(pluckMessages(state.feedback));
         }
         if (state.overall_feedback) {
             messages = messages.concat(pluckMessages(state.overall_feedback));
         }
         // In assessment mode overall feedback comes first then multiple per-item feedbacks.
-        if (state.feedback && configuration.mode === DragAndDropBlock.ASSESSMENT_MODE) {
+        if (state.feedback && configuration.mode === DragAndDropFrBlock.ASSESSMENT_MODE) {
             if (state.feedback.length > 0) {
                 if (!state.last_action_correct) {
                     messages.push(gettext("Some of your answers were not correct."));
@@ -1016,7 +1016,7 @@ function DragAndDropBlock(runtime, element, configuration) {
     var focusNextZone = function(evt, $currentZone) {
         var zones = $root.find('.target .zone').toArray();
         // In assessment mode, item bank is a valid drop zone
-        if (configuration.mode === DragAndDropBlock.ASSESSMENT_MODE) {
+        if (configuration.mode === DragAndDropFrBlock.ASSESSMENT_MODE) {
             zones.push($root.find('.item-bank')[0]);
         }
         var idx = zones.indexOf($currentZone[0]);
@@ -1150,7 +1150,7 @@ function DragAndDropBlock(runtime, element, configuration) {
             }
         });
 
-        if (configuration.mode === DragAndDropBlock.ASSESSMENT_MODE) {
+        if (configuration.mode === DragAndDropFrBlock.ASSESSMENT_MODE) {
             // Make item bank accept items that are returned to the bank using the mouse
             $root.find('.item-bank').droppable({
                 accept: '.target .option',
@@ -1276,7 +1276,7 @@ function DragAndDropBlock(runtime, element, configuration) {
                 state.items[item_id].submitting_location = false;
                 // In standard mode we immediately return item to the bank if dropped on wrong zone.
                 // In assessment mode we leave it in the chosen zone until explicit answer submission.
-                if (configuration.mode === DragAndDropBlock.STANDARD_MODE) {
+                if (configuration.mode === DragAndDropFrBlock.STANDARD_MODE) {
                     state.last_action_correct = data.correct;
                     state.feedback = data.feedback;
                     state.grade = data.grade;
@@ -1417,11 +1417,11 @@ function DragAndDropBlock(runtime, element, configuration) {
                 }
             }
         }
-        return any_items_placed && (configuration.mode !== DragAndDropBlock.ASSESSMENT_MODE || attemptsRemain());
+        return any_items_placed && (configuration.mode !== DragAndDropFrBlock.ASSESSMENT_MODE || attemptsRemain());
     };
 
     var canShowAnswer = function() {
-        return configuration.mode === DragAndDropBlock.ASSESSMENT_MODE && !attemptsRemain();
+        return configuration.mode === DragAndDropFrBlock.ASSESSMENT_MODE && !attemptsRemain();
     };
 
     var attemptsRemain = function() {
@@ -1448,7 +1448,7 @@ function DragAndDropBlock(runtime, element, configuration) {
             // In standard mode items placed in correct zone are no longer draggable.
             // In assessment mode items are draggable and can be moved between zones
             // until user explicitly submits the problem.
-            if (configuration.mode === DragAndDropBlock.STANDARD_MODE) {
+            if (configuration.mode === DragAndDropFrBlock.STANDARD_MODE) {
                 drag_disabled = Boolean(state.finished || item_user_state);
             } else {
                 drag_disabled = Boolean(state.finished);
@@ -1485,7 +1485,7 @@ function DragAndDropBlock(runtime, element, configuration) {
         // In assessment mode, it is possible to move items back to the bank, so the bank should be able to
         // gain focus while keyboard placement is in progress.
         var item_bank_focusable = (state.keyboard_placement_mode || state.showing_answer) &&
-                configuration.mode === DragAndDropBlock.ASSESSMENT_MODE;
+                configuration.mode === DragAndDropFrBlock.ASSESSMENT_MODE;
 
         var context = {
             // configuration - parts that never change:
@@ -1498,8 +1498,8 @@ function DragAndDropBlock(runtime, element, configuration) {
             weighted_max_score: configuration.weighted_max_score,
             problem_html: configuration.problem_text,
             show_problem_header: configuration.show_problem_header,
-            show_submit_answer: configuration.mode == DragAndDropBlock.ASSESSMENT_MODE,
-            show_show_answer: configuration.mode == DragAndDropBlock.ASSESSMENT_MODE,
+            show_submit_answer: configuration.mode == DragAndDropFrBlock.ASSESSMENT_MODE,
+            show_show_answer: configuration.mode == DragAndDropFrBlock.ASSESSMENT_MODE,
             target_img_src: configuration.target_img_expanded_url,
             target_img_description: configuration.target_img_description,
             display_zone_labels: configuration.display_zone_labels,
