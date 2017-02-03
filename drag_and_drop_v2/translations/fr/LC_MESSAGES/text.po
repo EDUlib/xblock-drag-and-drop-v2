@@ -506,7 +506,7 @@ msgstr ""
 
 #: public/js/drag_and_drop.js
 msgid "Problem"
-msgstr ""
+msgstr "Machin"
 
 #: public/js/drag_and_drop.js
 msgid "An error occurred. Unable to load drag and drop problem."
