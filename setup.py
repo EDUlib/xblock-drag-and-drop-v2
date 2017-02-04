@@ -22,7 +22,7 @@ def package_data(pkg, root_list):
 # Main ##############################################################
 
 setup(
-    name='xblock-drag-and-drop-v2-fr',
+    name='xblock-drag-and-drop-v2fr',
     version='2.0.14',
     description='XBlock - Drag-and-Drop v2 FR',
     packages=['drag_and_drop_v2fr'],
